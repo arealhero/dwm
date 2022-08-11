@@ -41,6 +41,7 @@
 #include <X11/extensions/Xinerama.h>
 #endif /* XINERAMA */
 #include <X11/Xft/Xft.h>
+#include <X11/XF86keysym.h> /* XF86XK_AudioLowerVolume */
 
 #include "drw.h"
 #include "util.h"

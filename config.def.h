@@ -69,6 +69,8 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ 0,                            XK_Print,  spawn,          SHCMD("scrot -e 'mv $f ~/pics/scrot/'") },
 	{ MODKEY,                       XK_Print,  spawn,          SHCMD("scrot -s -e 'mv $f ~/pics/scrot'") },
+	{ 0,                            XF86XK_AudioLowerVolume,  spawn,          SHCMD("amixer sset Master 1dB-") },
+	{ 0,                            XF86XK_AudioRaiseVolume,  spawn,          SHCMD("amixer sset Master 1dB+") },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
