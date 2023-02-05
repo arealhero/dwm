@@ -29,8 +29,9 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1,            0,           -1 },
+	{ "Gimp",          NULL,       NULL,       0,            1,           -1 },
+	{ "Firefox",       NULL,       NULL,       1,            0,           -1 },
+	{ "st-prompt",     NULL,       NULL,       0,            1,           -1 },
 };
 
 /* layout(s) */
@@ -68,11 +69,14 @@ static Key keys[] = {
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 
-	{ 0,                            XK_Print,  spawn,          SHCMD("scrot -e 'mv $f ~/pics/scrot/'") },
-	{ MODKEY,                       XK_Print,  spawn,          SHCMD("scrot -s -e 'mv $f ~/pics/scrot'") },
+	{ MODKEY,                       XK_s,      spawn,          SHCMD("maim | xclip -sel clip -t image/png") },
+	{ MODKEY|ShiftMask,             XK_s,      spawn,          SHCMD("maim -s | xclip -sel clip -t image/png") },
 	{ 0,                            XF86XK_AudioLowerVolume,  spawn,          SHCMD("amixer sset Master 1dB-") },
 	{ 0,                            XF86XK_AudioRaiseVolume,  spawn,          SHCMD("amixer sset Master 1dB+") },
 	{ MODKEY|ShiftMask,             XK_l,      spawn,          SHCMD("slock") },
+
+	{ MODKEY,                       XK_f,      spawn,          SHCMD("firefox -P") },
+	{ MODKEY,                       XK_e,      spawn,          SHCMD("emacs") },
 
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
@@ -85,7 +89,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      spawn,          SHCMD("firefox -P") },
 	{ MODKEY|ShiftMask,             XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
