@@ -1,5 +1,8 @@
 /* See LICENSE file for copyright and license details. */
 
+#define TERMINAL "st"
+#define TERMCLASS "St"
+
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int gappx     = 60;        /* gaps between windows */
@@ -31,6 +34,7 @@ static const Rule rules[] = {
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",          NULL,       NULL,       0,            1,           -1 },
 	{ "Firefox",       NULL,       NULL,       1,            0,           -1 },
+	{ TERMCLASS,       "st-calc",  NULL,       0,            1,           -1 },
 	{ "st-prompt",     NULL,       NULL,       0,            1,           -1 },
 };
 
@@ -63,11 +67,13 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static char dmenulines[] = "10";
 static const char *dmenucmd[] = { "dmenu_run", "-l", dmenulines, "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { "st", NULL };
+static const char *calccmd[]  = { TERMINAL, "-n", "st-calc", "-f", "monospace:size=16", "-g", "50x20", "-e", "bc", "-lq", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_c,      spawn,          {.v = calccmd } },
 
 	{ MODKEY,                       XK_s,      spawn,          SHCMD("maim | xclip -sel clip -t image/png") },
 	{ MODKEY|ShiftMask,             XK_s,      spawn,          SHCMD("maim -s | xclip -sel clip -t image/png") },
