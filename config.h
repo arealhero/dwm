@@ -86,6 +86,8 @@ static Key keys[] = {
 	{ 0,                            XF86XK_AudioLowerVolume,  spawn,          SHCMD("volume-control --change-volume -5") },
 	{ 0,                            XF86XK_AudioRaiseVolume,  spawn,          SHCMD("volume-control --change-volume +5") },
 
+	{ MODKEY,                       XK_space,                 spawn,          SHCMD("dwm-xkb-switch")},
+
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
