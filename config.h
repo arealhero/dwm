@@ -77,12 +77,14 @@ static Key keys[] = {
 
 	{ MODKEY,                       XK_s,      spawn,          SHCMD("maim | xclip -sel clip -t image/png") },
 	{ MODKEY|ShiftMask,             XK_s,      spawn,          SHCMD("maim -s | xclip -sel clip -t image/png") },
-	{ 0,                            XF86XK_AudioLowerVolume,  spawn,          SHCMD("amixer sset Master 1dB-") },
-	{ 0,                            XF86XK_AudioRaiseVolume,  spawn,          SHCMD("amixer sset Master 1dB+") },
 	{ MODKEY|ShiftMask,             XK_l,      spawn,          SHCMD("slock") },
 
 	{ MODKEY,                       XK_f,      spawn,          SHCMD("firefox -P") },
 	{ MODKEY,                       XK_e,      spawn,          SHCMD("emacs") },
+
+	{ 0,                            XF86XK_AudioMute,         spawn,          SHCMD("volume-control --toggle-mute") },
+	{ 0,                            XF86XK_AudioLowerVolume,  spawn,          SHCMD("volume-control --change-volume -5") },
+	{ 0,                            XF86XK_AudioRaiseVolume,  spawn,          SHCMD("volume-control --change-volume +5") },
 
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
