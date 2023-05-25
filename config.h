@@ -79,7 +79,7 @@ static Key keys[] = {
   { MODKEY|ShiftMask,             XK_s,      spawn,          SHCMD("maim -s | xclip -sel clip -t image/png") },
   { MODKEY|ShiftMask,             XK_l,      spawn,          SHCMD("slock") },
 
-  { MODKEY,                       XK_f,      spawn,          SHCMD("firefox -P") },
+  { MODKEY,                       XK_f,      spawn,          SHCMD("librewolf -P") },
   { MODKEY,                       XK_e,      spawn,          SHCMD("emacs") },
 
   { 0,                            XF86XK_AudioMute,         spawn,          SHCMD("volume-control --toggle-mute") },
