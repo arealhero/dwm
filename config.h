@@ -75,8 +75,8 @@ static Key keys[] = {
   { MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
   { MODKEY,                       XK_c,      spawn,          {.v = calccmd } },
 
-  { MODKEY,                       XK_s,      spawn,          SHCMD("maim | xclip -sel clip -t image/png") },
-  { MODKEY|ShiftMask,             XK_s,      spawn,          SHCMD("maim -s | xclip -sel clip -t image/png") },
+  { MODKEY,                       XK_s,      spawn,          SHCMD("maim --hidecursor | xclip -sel clip -t image/png") },
+  { MODKEY|ShiftMask,             XK_s,      spawn,          SHCMD("maim --hidecursor -s | xclip -sel clip -t image/png") },
   { MODKEY|ShiftMask,             XK_l,      spawn,          SHCMD("slock") },
 
   { MODKEY,                       XK_f,      spawn,          SHCMD("librewolf -P") },
