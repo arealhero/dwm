@@ -278,10 +278,8 @@ struct Monitor {
     Monitor* next;
     Window bar_window;
 
-    const Layout* current_layout;
-
-    // FIXME(vlad): use this field.
-    /* const Layout layouts[LENGTH(tags)]; */
+    unsigned int current_layout_index;
+    const Layout* layouts[LENGTH(tags)];
 };
 
 /* function implementations */
@@ -309,13 +307,19 @@ swap_selected_tags(Monitor* monitor)
 static inline const Layout*
 current_layout(Monitor* monitor)
 {
-    return monitor->current_layout;
+    return monitor->layouts[monitor->current_layout_index];
+}
+
+static inline void
+set_layout_index(Monitor* monitor, const unsigned int index)
+{
+    monitor->current_layout_index = index;
 }
 
 static inline void
 set_layout(Monitor* monitor, const Layout* layout)
 {
-    monitor->current_layout = layout;
+    monitor->layouts[monitor->current_layout_index] = layout;
 }
 
 static inline void
@@ -816,8 +820,13 @@ createmon(void)
     m->showbar = showbar;
     m->topbar = topbar;
     m->gappx = gappx;
-    m->current_layout = &layouts[0];
-    strncpy(m->layout_symbol, layouts[0].symbol, sizeof m->layout_symbol);
+
+    for (unsigned int i = 0; i < LENGTH(tags); ++i) {
+        m->layouts[i] = &layouts[0];
+    }
+
+    copy_layout_symbol(m);
+
     return m;
 }
 
@@ -1398,6 +1407,8 @@ maprequest(XEvent* e)
 void
 monocle(Monitor* m)
 {
+    // FIXME(vlad): do not draw window borders in the monocle mode.
+    //              Or maybe we should draw gaps even in monocle mode? Idk.
     for (Client* c = nexttiled(m->clients); c != NULL; c = nexttiled(c->next)) {
         resize(c, m->wx, m->wy, m->ww - 2 * c->border_width, m->wh - 2 * c->border_width, 0);
     }
@@ -2090,8 +2101,13 @@ spawn(const Arg* arg)
 void
 tag(const Arg* arg)
 {
-    if (selected_monitor->selected_client && arg->ui & TAGMASK) {
-        selected_monitor->selected_client->tags = arg->ui & TAGMASK;
+    const unsigned int index = arg->ui;
+    const unsigned int tags_to_move_to = (1 << index) & TAGMASK;
+
+    Client* selected_client = selected_monitor->selected_client;
+
+    if (selected_client && tags_to_move_to) {
+        selected_client->tags = tags_to_move_to;
         focus(NULL);
         arrange(selected_monitor);
     }
@@ -2194,7 +2210,8 @@ toggletag(const Arg* arg)
         return;
     }
 
-    const unsigned int tag_to_toggle = arg->ui & TAGMASK;
+    const unsigned int index = arg->ui;
+    const unsigned int tag_to_toggle = (1 << index) & TAGMASK;
     const unsigned int updated_tags = selected_client->tags ^ tag_to_toggle;
 
     if (updated_tags) {
@@ -2207,7 +2224,8 @@ toggletag(const Arg* arg)
 void
 toggleview(const Arg* arg)
 {
-    const unsigned int tag_to_toggle = arg->ui & TAGMASK;
+    const unsigned int index = arg->ui;
+    const unsigned int tag_to_toggle = (1 << index) & TAGMASK;
     const unsigned int updated_tags = current_tags(selected_monitor) ^ tag_to_toggle;
 
     if (updated_tags) {
@@ -2573,7 +2591,8 @@ updatewmhints(Client* c)
 void
 view(const Arg* arg)
 {
-    const unsigned int requested_tag = arg->ui & TAGMASK;
+    const unsigned int index = arg->ui;
+    const unsigned int requested_tag = (1 << index) & TAGMASK;
 
     if (requested_tag == current_tags(selected_monitor)) {
         return;
@@ -2584,6 +2603,8 @@ view(const Arg* arg)
     if (requested_tag) {
         set_tags(selected_monitor, requested_tag);
     }
+
+    set_layout_index(selected_monitor, index);
 
     focus(NULL);
     arrange(selected_monitor);
