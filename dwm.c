@@ -1410,7 +1410,8 @@ monocle(Monitor* m)
     // FIXME(vlad): do not draw window borders in the monocle mode.
     //              Or maybe we should draw gaps even in monocle mode? Idk.
     for (Client* c = nexttiled(m->clients); c != NULL; c = nexttiled(c->next)) {
-        resize(c, m->wx, m->wy, m->ww - 2 * c->border_width, m->wh - 2 * c->border_width, 0);
+        resize(c, m->wx + m->gappx, m->wy + m->gappx,
+               m->ww - 2 * (c->border_width + m->gappx), m->wh - 2 * (c->border_width + m->gappx), 0);
     }
 }
 
