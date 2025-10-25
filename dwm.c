@@ -580,7 +580,7 @@ buttonpress(XEvent* e)
 
         if (i < LENGTH(tags)) {
             click = ClkTagBar;
-            arg.ui = 1 << i;
+            arg.ui = i;
         } else if (ev->x < x + blw) {
             click = ClkLtSymbol;
         } else if (ev->x > selected_monitor->ww - (int)TEXTW(status_text)) {
